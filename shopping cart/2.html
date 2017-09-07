@@ -46,7 +46,7 @@
 			anew();
 			ul.onclick = (e) => {
 				var e = e;
-				if(e.target.getAttribute("delete") == "t") {
+				if(e.target.getAttribute("delete") == "t") {	//删除函数
 					console.log(e.target);
 					for(var i = 0; i < cookie.length; i++) {
 						if(cookie[i].id == e.target.parentNode.getAttribute("goods")) {
@@ -56,23 +56,23 @@
 						}
 					}
 				}
-				if(e.target.getAttribute("add") == "1") {
+				if(e.target.getAttribute("add") == "1") {	//添加数量
 					for(var i = 0; i < cookie.length; i++) {
 						if(cookie[i].id == e.target.parentNode.getAttribute("goods")) {
 							var num = cookie[i].num;
 							num++;
 							cookie[i].num = num;
-							anew();
-							document.cookie = "listData=" + JSON.stringify(cookie);
+							anew();		//重新渲染
+							document.cookie = "listData=" + JSON.stringify(cookie);	//添加到cookie
 						}
 					}
 				}
-				if(e.target.getAttribute("add") == "-1") {
+				if(e.target.getAttribute("add") == "-1") {	//减少数量
 					for(var i = 0; i < cookie.length; i++) {
 						if(cookie[i].id == e.target.parentNode.getAttribute("goods")) {
 							var num = cookie[i].num;
 							num--;
-							if(num<1){
+							if(num<1){	//如果数量小于1，就不能继续操作
 								break;
 							}
 							cookie[i].num = num;
