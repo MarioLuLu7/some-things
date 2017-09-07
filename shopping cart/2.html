@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			* {
+				margin: 10px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<ul></ul>
+		<p></p>
+		<script>
+			var cookie = document.cookie;
+			cookie = cookie.split("; ");
+			cookie = cookie[0];
+			cookie = cookie.split("=");
+			cookie = cookie[1];
+			var ul = document.querySelector("ul");
+			var p = document.querySelector("p");
+			cookie = JSON.parse(cookie);
+
+			function anew() {
+				ul.innerHTML = "";
+				var sum = 0;
+				for(i of cookie) {
+					ul.innerHTML += `
+					<li goods="${i.id}">
+						<span>${i.name}</span>
+						<b>${i.price}</b>
+						<button add="1">+</button>
+						<span>数量:${i.num}</span>
+						<button add="-1">-</button>
+						<button delete="t">删除</button>
+						<span>价格:</span><b>${i.price * i.num}</b>
+					</li>
+				`
+				sum += i.price * i.num;
+				}
+				p.innerHTML = "总价:<b>" + sum + "</b>";
+			}
+			anew();
+			ul.onclick = (e) => {
+				var e = e;
+				if(e.target.getAttribute("delete") == "t") {
+					console.log(e.target);
+					for(var i = 0; i < cookie.length; i++) {
+						if(cookie[i].id == e.target.parentNode.getAttribute("goods")) {
+							cookie.splice(i, 1);
+							anew();
+							document.cookie = "listData=" + JSON.stringify(cookie);
+						}
+					}
+				}
+				if(e.target.getAttribute("add") == "1") {
+					for(var i = 0; i < cookie.length; i++) {
+						if(cookie[i].id == e.target.parentNode.getAttribute("goods")) {
+							var num = cookie[i].num;
+							num++;
+							cookie[i].num = num;
+							anew();
+							document.cookie = "listData=" + JSON.stringify(cookie);
+						}
+					}
+				}
+				if(e.target.getAttribute("add") == "-1") {
+					for(var i = 0; i < cookie.length; i++) {
+						if(cookie[i].id == e.target.parentNode.getAttribute("goods")) {
+							var num = cookie[i].num;
+							num--;
+							if(num<1){
+								break;
+							}
+							cookie[i].num = num;
+							anew();
+							document.cookie = "listData=" + JSON.stringify(cookie);
+						}
+					}
+				}
+			}
+		</script>
+	</body>
+
