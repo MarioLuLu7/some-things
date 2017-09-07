@@ -46,29 +46,29 @@
 		<a href="2.html">结算</a>
 	</body>
 	<script>
-		var cookie = document.cookie;
-		cookie = cookie.split("; ");
+		var cookie = document.cookie;	//获取cookie值
+		cookie = cookie.split("; ");	//用; 切割cookie
 		cookie = cookie[0];
 		cookie = cookie.split("=");
-		cookie = cookie[1];
+		cookie = cookie[1];		//得到cookie中需要的‘数组’,这个需要JSON转换
 		var ul = document.querySelector("ul");
 		var p = document.querySelector("p");
-		cookie = JSON.parse(cookie);
+		cookie = JSON.parse(cookie);	//把JSON转换成数组
 
 		var ul = document.querySelector("ul");
 		ul.onclick = (e) => {
-			var e = e;
-			if(e.target.nodeName.toLowerCase() == "button") {
-				var obj = {};
-				var id = e.target.parentNode.getAttribute("goods");
-				var name = e.target.parentNode.childNodes[1].innerHTML;
-				var price = e.target.parentNode.childNodes[3].innerHTML;
+			var e = e || event;		//考虑兼容
+			if(e.target.nodeName.toLowerCase() == "button") {	//获取点击事件的节点名然后转小写
+				var id = e.target.parentNode.getAttribute("goods");		//获取事件父节点的属性值
+				var name = e.target.parentNode.childNodes[1].innerHTML;	//获取事件父节点第2个子节点的innerHTML值(注意text也是节点)
+				var price = e.target.parentNode.childNodes[3].innerHTML;//获取事件父节点第4个子节点的innerHTML值
 				console.log(id, name, price);
+				var obj = {};
 				obj.name = name;
 				obj.id = id;
 				obj.price = price;
 				for(var i = 0; i < cookie.length; i++) {
-					if(cookie[i].id == id) {
+					if(cookie[i].id == id) {	//如果数组中已有此产品，就添加数量
 						obj.num = cookie[i].num + 1;
 						cookie[i] = obj;
 						break;
@@ -79,7 +79,7 @@
 					cookie.push(obj);
 				}
 				console.log(cookie);
-				document.cookie = "listData=" + JSON.stringify(cookie);
+				document.cookie = "listData=" + JSON.stringify(cookie);		//把这个数组添加到cookie中
 			}
 		}
 	</script>
